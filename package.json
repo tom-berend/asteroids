@@ -19,6 +19,7 @@
     "rollup": "^1.0.0",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^4.2.3",
+    "rollup-plugin-serve": "^1.0.1",
     "rollup-plugin-typescript": "^1.0.0",
     "ts-node": "^7.0.1",
     "tslib": "^1.9.3",
@@ -26,7 +27,7 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "dev": "rollup -c -w",
+    "dev": "rollup -c -w -m",
     "test": "ts-node test/test-main.ts",
     "pretest": "npm run build",
     "faketest": "ts-node src/main.ts"

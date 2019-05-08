@@ -27,11 +27,7 @@ export default class Asteroids {
 
         // create a FreeCamera, and set its position to (x:0, y:5, z:-10)
         this._camera = new FreeCamera("camera1", new Vector3(0, 5, -10), this._scene);
-
-        // target the camera to scene origin
         this._camera.setTarget(Vector3.Zero());
-
-        // attach the camera to the canvas
         this._camera.attachControl(this._canvas, false);
 
         // create a basic light, aiming 0,1,0 - meaning, to the sky
@@ -55,6 +51,7 @@ export default class Asteroids {
     public animate(): void {
         // run the render loop
         this._engine.runRenderLoop(() => {
+            this.gameboard.updateAsteroids();
             this._scene.render();
         });
 

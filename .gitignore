@@ -4,6 +4,7 @@
 *#
 .cache
 yarn.lock
+*.log
 
 # Node Modules
 node_modules/*
