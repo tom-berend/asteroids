@@ -1,30 +1,37 @@
 {
-  "name": "asteroids",
+  "name": "rollup-starter-lib",
   "version": "1.0.0",
-  "description": "Simple game exploring 3D",
-  "main": "src/index.ts",
-  "scripts": {
-    "dev": "parcel src/index.pug",
-    "build": "parcel build src/index.pug --public-url ./",
-    "test": "testcommand"
-  },
-  "repository": {
-    "type": "git",
-    "url": "asteroids"
-  },
-  "keywords": [
-    "3D",
-    "game"
-  ],
-  "author": "Tom Berend",
-  "license": "MIT",
-  "devDependencies": {
-    "parcel-bundler": "^1.12.3",
-    "pug": "^2.0.3"
-  },
+  "main": "dist/asteroids.cjs.js",
+  "module": "dist/asteroids.esm.js",
+  "browser": "dist/asteroids.umd.js",
   "dependencies": {
     "@babylonjs/core": "^4.0.3",
     "@babylonjs/materials": "^4.0.3",
+    "@babylonjs/loaders": "^4.0.3",
+    "@types/ms": "^0.7.30",
+    "babylonjs": "^4.0.3",
+    "babylonjs-loaders": "^4.0.3",
+    "babylonjs-materials": "^4.0.3",
+    "ms": "^2.0.0",
     "seedrandom": "^3.0.1"
-  }
+  },
+  "devDependencies": {
+    "rollup": "^1.0.0",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-node-resolve": "^4.2.3",
+    "rollup-plugin-typescript": "^1.0.0",
+    "ts-node": "^7.0.1",
+    "tslib": "^1.9.3",
+    "typescript": "^3.2.2"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "test": "ts-node test/test-main.ts",
+    "pretest": "npm run build",
+    "faketest": "ts-node src/main.ts"
+  },
+  "files": [
+    "dist"
+  ]
 }

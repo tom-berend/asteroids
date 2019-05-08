@@ -1,8 +1,6 @@
-//import * as BABYLON from '@babylonjs/core';
 
 
-import { Engine, Scene, FreeCamera, Light, Vector3, HemisphericLight } from '@babylonjs/core';
-//import * as BABYLON from 'babylonjs';
+import { Engine, Scene, FreeCamera, Light, Vector3, HemisphericLight } from "@babylonjs/core";
 
 import {AsteroidBoard} from "./world/asteroidboard";
 

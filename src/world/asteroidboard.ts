@@ -1,18 +1,22 @@
-import * as BABYLON from 'babylonjs';
+
+
+import { Color3,Vector3, Mesh, MeshBuilder } from '@babylonjs/core';
+
 import {
     GridMaterial
 } from '@babylonjs/materials';
 
+
 export class AsteroidBoard {
 
-    private scene: BABYLON.Scene;
+    private scene: Scene;
     private asteroidGridMaterial: GridMaterial;
     private skyRadius: number;
-    private skyMaterial: BABYLON.Material;
+    private skyMaterial: GridMaterial;
 
-    public asteroids: Array < BABYLON.Mesh > ;
+    public asteroids: Array < Mesh > ;
 
-    constructor(scene: BABYLON.Scene) {
+    constructor(scene: Scene) {
 
         this.asteroids = [];
         this.scene = scene;
@@ -25,21 +29,21 @@ export class AsteroidBoard {
         this.skyMaterial.majorUnitFrequency = 6;
         this.skyMaterial.minorUnitVisibility = 0.3;
         this.skyMaterial.gridRatio = 0.5;
-        this.skyMaterial.mainColor = new BABYLON.Color3(0, 0.05, 0.2);
-        this.skyMaterial.lineColor = new BABYLON.Color3(0, 1.0, 1.0);
+        this.skyMaterial.mainColor = new Color3(0, 0.05, 0.2);
+        this.skyMaterial.lineColor = new Color3(0, 1.0, 1.0);
         this.skyMaterial.backFaceCulling = false;
 
         this.skyRadius = 50;
-        var skySphere = BABYLON.Mesh.CreateSphere("skySphere", this.skyRadius * 2, this.skyRadius * 2, this.scene);
+        var skySphere = Mesh.CreateSphere("skySphere", this.skyRadius * 2, this.skyRadius * 2, this.scene);
         skySphere.material = this.skyMaterial;
 
         // create the asteroids
         this.createAsteroids();
-        console.log(this.asteroids)
+        //console.log(this.asteroids)
     }
 
     createOneAsteroid() {
-        let mesh = BABYLON.MeshBuilder.CreateSphere("mySphere", {
+        let mesh = MeshBuilder.CreateSphere("mySphere", {
             diameterX: Math.random() * 5 + 2,
             diameterY: Math.random() * 5 + 2,
             diameterZ: Math.random() * 5 + 2,
@@ -47,8 +51,8 @@ export class AsteroidBoard {
 
         mesh.material = this.asteroidGridMaterial;
 
-        mesh.motion = new BABYLON.Vector3(this.randomMotion(), this.randomMotion(), this.randomMotion());
-        mesh.rotate = new BABYLON.Vector3(this.randomMotion(), this.randomMotion(), this.randomMotion());
+        mesh.motion = new Vector3(this.randomMotion(), this.randomMotion(), this.randomMotion());
+        mesh.rotate = new Vector3(this.randomMotion(), this.randomMotion(), this.randomMotion());
         return (mesh);
     }
 
@@ -82,7 +86,7 @@ export class AsteroidBoard {
 
                     if ((x * x + y * y + z * z) < (this.skyRadius * this.skyRadius)) {
                         let mesh = this.createOneAsteroid();
-                        mesh.position = new BABYLON.Vector3(x, y, z);
+                        mesh.position = new Vector3(x, y, z);
                         this.asteroids.push(mesh);
                     }
                 }
