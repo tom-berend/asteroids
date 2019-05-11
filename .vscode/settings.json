@@ -3,6 +3,7 @@
   "editor.formatOnSave": true,
   "typescript.format.enable": false,
   "javascript.format.enable": false,
+  "editor.codeLens": false,
   "typescript.implementationsCodeLens.enabled": true,
   "typescript.referencesCodeLens.enabled": true,
   "javascript.referencesCodeLens.enabled": true,
