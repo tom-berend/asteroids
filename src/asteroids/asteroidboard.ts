@@ -1,6 +1,13 @@
+// every game has to define
+// -  preload()
+// -  create()
+// -  update()
 
 
-import { Color3,Vector3, Mesh, MeshBuilder } from '@babylonjs/core';
+
+
+
+import { Scene,Color3,Vector3, Mesh, MeshBuilder } from '@babylonjs/core';
 
 import {
     GridMaterial
@@ -36,11 +43,11 @@ export class AsteroidBoard {
         this.skyRadius = 50;
         var skySphere = Mesh.CreateSphere("skySphere", this.skyRadius * 2, this.skyRadius * 2, this.scene);
         skySphere.material = this.skyMaterial;
-
-        // create the asteroids
-        this.createAsteroids();
-        //console.log(this.asteroids)
     }
+
+
+    preload(){}
+
 
     createOneAsteroid() {
         let mesh = MeshBuilder.CreateSphere("mySphere", {
@@ -57,8 +64,7 @@ export class AsteroidBoard {
     }
 
 
-    createAsteroids() {
-
+    create() {
 
         /////// this pattern puts a wall of asteroids across the xy plane
         let pattern = [
@@ -99,7 +105,7 @@ export class AsteroidBoard {
         return (Math.random() - 0.5) / 100;
     }
 
-    updateAsteroids() {
+    update() {
         // move EACH asteroid and check for collisions (so can have jostling)
         this.asteroids.forEach(element => {
             // save old position
