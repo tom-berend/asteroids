@@ -11,8 +11,9 @@
   },
   "dependencies": {
     "@babylonjs/core": "^4.0.3",
-    "@babylonjs/materials": "^4.0.3",
     "@babylonjs/loaders": "^4.0.3",
+    "@babylonjs/materials": "^4.0.3",
+    "@stardazed/ammo": "^0.1.1",
     "@types/ms": "^0.7.30",
     "babylonjs": "^4.0.3",
     "babylonjs-loaders": "^4.0.3",

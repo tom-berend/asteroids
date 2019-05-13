@@ -3,27 +3,28 @@
 // -  create()
 // -  update()
 
-
-
-
-
-import { Scene,Color3,Vector3, Mesh, MeshBuilder } from '@babylonjs/core';
-
 import {
-    GridMaterial
-} from '@babylonjs/materials';
+    Scene,
+    Color3,
+    Vector3,
+    Mesh,
+    MeshBuilder,
+    Quaternion,
+    PhysicsImpostor
+} from '@babylonjs/core';
 
+import {GridMaterial} from '@babylonjs/materials';
 
-export class AsteroidBoard {
+export class Asteroids {
 
-    private scene: Scene;
-    private asteroidGridMaterial: GridMaterial;
-    private skyRadius: number;
-    private skyMaterial: GridMaterial;
+    private scene : Scene;
+    private asteroidGridMaterial : GridMaterial;
+    private skyRadius : number;
+    private skyMaterial : GridMaterial;
 
-    public asteroids: Array < Mesh > ;
+    public asteroids : Array < Mesh >;
 
-    constructor(scene: Scene) {
+    constructor(scene : Scene) {
 
         this.asteroids = [];
         this.scene = scene;
@@ -45,39 +46,58 @@ export class AsteroidBoard {
         skySphere.material = this.skyMaterial;
     }
 
-
-    preload(){}
-
+    preload() {}
 
     createOneAsteroid() {
+
         let mesh = MeshBuilder.CreateSphere("mySphere", {
             diameterX: Math.random() * 5 + 2,
             diameterY: Math.random() * 5 + 2,
-            diameterZ: Math.random() * 5 + 2,
+            diameterZ: Math.random() * 5 + 2
         }, this.scene);
 
         mesh.material = this.asteroidGridMaterial;
 
-        mesh.motion = new Vector3(this.randomMotion(), this.randomMotion(), this.randomMotion());
-        mesh.rotate = new Vector3(this.randomMotion(), this.randomMotion(), this.randomMotion());
+        var axis = new Vector3(1, 1, 1);
+
+        // normally the object mesh has a more complicated shape than the imposter here,
+        // we use exactly the same shape
+        mesh.physicsImpostor = new PhysicsImpostor(mesh, PhysicsImpostor.SphereImpostor, {
+            mass: 1,
+            restitution: 0.9
+        }, this.scene);
+
+        mesh
+            .physicsImpostor
+            .setLinearVelocity(new Vector3(this.randomMotion(), this.randomMotion(), this.randomMotion()));
+        mesh
+            .physicsImpostor
+            .setAngularVelocity(new Vector3(this.randomMotion() * Math.PI, this.randomMotion() * Math.PI, this.randomMotion() * Math.PI));
+
         return (mesh);
     }
-
 
     create() {
 
         /////// this pattern puts a wall of asteroids across the xy plane
         let pattern = [
-            [18, 0.9, 6], // 30 asteroids at 90% of the sphere radius, 7 in x direction
-            [12, 0.6, 8], // 20              60%
-            [8, 0.35, 12], // 10              30%
-            [4, 0.15, 15], // 10              30
+            [
+                18, 0.9, 6
+            ], // x asteroids at 90% of the sphere radius, 6 in x direction
+            [
+                12, 0.6, 8
+            ], // x              60%
+            [
+                8, 0.35, 12
+            ], // x              30%
+            [
+                4, 0.15, 15
+            ], // x              30
         ];
 
         pattern.forEach(ring => {
             let pi = 3.14;
             for (let i = 0; i < ring[0]; i++) {
-
 
                 let x = (ring[1] * this.skyRadius) * Math.cos(2 * pi * i / ring[0])
                 let y = (ring[1] * this.skyRadius) * Math.sin(2 * pi * i / ring[0])
@@ -87,13 +107,17 @@ export class AsteroidBoard {
 
                 for (let j = 0; j < ring[2]; j++) {
 
-                    let z = this.skyRadius * (j / ring[2]) * ((j % 2 == 0) ? -1 : 1)
+                    let z = this.skyRadius * (j / ring[2]) * ((j % 2 == 0)
+                        ? -1
+                        : 1)
                     // second part simply alternates between positive and negative values
 
                     if ((x * x + y * y + z * z) < (this.skyRadius * this.skyRadius)) {
                         let mesh = this.createOneAsteroid();
                         mesh.position = new Vector3(x, y, z);
-                        this.asteroids.push(mesh);
+                        this
+                            .asteroids
+                            .push(mesh);
                     }
                 }
             }
@@ -102,21 +126,21 @@ export class AsteroidBoard {
     }
 
     randomMotion() {
-        return (Math.random() - 0.5) / 100;
+        return (Math.random() - 0.5);
     }
 
     update() {
         // move EACH asteroid and check for collisions (so can have jostling)
-        this.asteroids.forEach(element => {
-            // save old position
-            let oldRotation = element.rotation;
-            let oldPosition = element.position;
-            // try out new position
-            element.rotation.addInPlace(element.rotate);
-            element.position.addInPlace(element.motion);
+        this
+            .asteroids
+            .forEach(element => {
+                // save old position
+                let oldRotation = element.rotation;
+                let oldPosition = element.position;
+                // try out new position            element.rotation.addInPlace(element.rotate);
+                //          element.position.addInPlace(element.motion);
 
-        });
-
+            });
 
     }
 

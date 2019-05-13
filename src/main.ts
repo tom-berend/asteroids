@@ -1,7 +1,7 @@
 // import 'core-js'; // <- at the top of your entry point
 
 
-import { AsteroidBoard } from "./asteroids/asteroidboard";
+import { Asteroids } from "./asteroids/asteroids";
 
 import {
     Engine,
@@ -9,7 +9,8 @@ import {
     FreeCamera,
     Light,
     Vector3,
-    HemisphericLight
+    HemisphericLight,
+    AmmoJSPlugin
 } from "@babylonjs/core";
 
 
@@ -27,7 +28,11 @@ class SomeGame {
         console.log(Engine);
         this._canvas = document.getElementById(canvasElement) as HTMLCanvasElement;
         this._engine = new Engine(this._canvas, true);
+
         this._scene = new Scene(this._engine);
+        let gravityVector = new Vector3(0,0, 0);  // no gravity
+        let physicsPlugin = new AmmoJSPlugin();
+        this._scene.enablePhysics(gravityVector, physicsPlugin);
 
         // create a FreeCamera, and set its position to (x:0, y:5, z:-10)
         this._camera = new FreeCamera(
@@ -48,7 +53,7 @@ class SomeGame {
         this._camera.setTarget(Vector3.Zero());
         this._camera.attachControl(this._canvas, false);
 
-        this.gameboard = new AsteroidBoard(this._scene);
+        this.gameboard = new Asteroids(this._scene);
         this.gameboard.create();
     }
 
