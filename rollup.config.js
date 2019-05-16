@@ -26,7 +26,9 @@ export default [
 				port: 1234,
 				verbose: true
 			})
-		]
+		],
+		  // indicate which modules should be treated as external
+		  external: ['babylonjs','babylon-materials']
 	}
 
 	// CommonJS (for Node) and ES module (for bundlers) build.

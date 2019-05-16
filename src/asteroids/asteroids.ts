@@ -1,132 +1,124 @@
-// every game has to define
-// -  preload()
-// -  create()
-// -  update()
+
+// set up 'astroid world' inside a sphere
 
 import {
+    Engine,
     Scene,
+    Camera,
+    FreeCamera,
+    Light,
+    HemisphericLight,
     Color3,
     Vector3,
     Mesh,
     MeshBuilder,
     Quaternion,
-    PhysicsImpostor
+    PhysicsImpostor,
+    AmmoJSPlugin,
+    Material
 } from '@babylonjs/core';
 
-import {GridMaterial} from '@babylonjs/materials';
+import { GridMaterial } from '@babylonjs/materials';
+//import {CANNON} from 'cannon';
 
 export class Asteroids {
 
-    private scene : Scene;
-    private asteroidGridMaterial : GridMaterial;
-    private skyRadius : number;
-    private skyMaterial : GridMaterial;
+    public asteroids: Array<Mesh>;
+    public engine:Engine;
+    public scene: Scene;
+    public camera:Camera;
 
-    public asteroids : Array < Mesh >;
+    constructor() {
+        // this.engine = engine;
+        // this.scene = scene;
+        // this.camera = camera;
 
-    constructor(scene : Scene) {
+        // console.log()
+        // this.engine = new Engine(this.canvas, true);
+
+        // this.scene = new Scene(this.engine);
+        // let gravityVector = new Vector3(9.8, 0, 0); // initially no gravity
+        // let physicsPlugin = new AmmoJSPlugin();
+        // this.scene.enablePhysics(gravityVector, physicsPlugin);
+
+        // this.camera = new FreeCamera("camera0", new Vector3(0, 5, -10), this.scene);
+
+        // this.camera.setTarget(Vector3.Zero());
+        // this.camera.attachControl(this.canvas, false);
+
+
 
         this.asteroids = [];
-        this.scene = scene;
 
-        this.asteroidGridMaterial = new GridMaterial("", this.scene);
-        this.asteroidGridMaterial.majorUnitFrequency = 3;
-        this.asteroidGridMaterial.gridRatio = 0.5;
-
-        this.skyMaterial = new GridMaterial("skyMaterial", this.scene);
-        this.skyMaterial.majorUnitFrequency = 6;
-        this.skyMaterial.minorUnitVisibility = 0.3;
-        this.skyMaterial.gridRatio = 0.5;
-        this.skyMaterial.mainColor = new Color3(0, 0.05, 0.2);
-        this.skyMaterial.lineColor = new Color3(0, 1.0, 1.0);
-        this.skyMaterial.backFaceCulling = false;
-
-        this.skyRadius = 50;
-        var skySphere = Mesh.CreateSphere("skySphere", this.skyRadius * 2, this.skyRadius * 2, this.scene);
-        skySphere.material = this.skyMaterial;
     }
 
-    preload() {}
+    preload() { }
 
-    createOneAsteroid() {
 
-        let mesh = MeshBuilder.CreateSphere("mySphere", {
-            diameterX: Math.random() * 5 + 2,
-            diameterY: Math.random() * 5 + 2,
-            diameterZ: Math.random() * 5 + 2
-        }, this.scene);
+    create(scene: Scene, camera: Camera) {
 
-        mesh.material = this.asteroidGridMaterial;
+        // create a basic light, aiming 0,1,0 - meaning, to the sky
+        let light = new HemisphericLight("light1", new Vector3(0, 1, 0), scene);
 
-        var axis = new Vector3(1, 1, 1);
 
-        // normally the object mesh has a more complicated shape than the imposter here,
-        // we use exactly the same shape
-        mesh.physicsImpostor = new PhysicsImpostor(mesh, PhysicsImpostor.SphereImpostor, {
-            mass: 1,
-            restitution: 0.9
-        }, this.scene);
+        let asteroidGridMaterial = new GridMaterial("", scene);
+        asteroidGridMaterial.majorUnitFrequency = 3;
+        asteroidGridMaterial.gridRatio = 0.5;
 
-        mesh
-            .physicsImpostor
-            .setLinearVelocity(new Vector3(this.randomMotion(), this.randomMotion(), this.randomMotion()));
-        mesh
-            .physicsImpostor
-            .setAngularVelocity(new Vector3(this.randomMotion() * Math.PI, this.randomMotion() * Math.PI, this.randomMotion() * Math.PI));
+        let skyMaterial = new GridMaterial("skyMaterial", scene);
+        skyMaterial.majorUnitFrequency = 6;
+        skyMaterial.minorUnitVisibility = 0.3;
+        skyMaterial.gridRatio = 0.5;
+        skyMaterial.mainColor = new Color3(0, 0.05, 0.2);
+        skyMaterial.lineColor = new Color3(0, 1.0, 1.0);
+        skyMaterial.backFaceCulling = false;
 
-        return (mesh);
-    }
-
-    create() {
+        let skyRadius = 50;
 
         /////// this pattern puts a wall of asteroids across the xy plane
         let pattern = [
-            [
-                18, 0.9, 6
-            ], // x asteroids at 90% of the sphere radius, 6 in x direction
-            [
-                12, 0.6, 8
-            ], // x              60%
-            [
-                8, 0.35, 12
-            ], // x              30%
-            [
-                4, 0.15, 15
-            ], // x              30
+            [18, 0.9, 6],  // 18 at 90% distance at x-y, 6 out the z direction,
+            [12, 0.6, 8],
+            [8, 0.35, 12],
+            [4, 0.15, 15]
         ];
+
+        var skySphere = Mesh.CreateSphere("skySphere", skyRadius * 2, skyRadius * 2, scene);
+        skySphere.material = skyMaterial;
 
         pattern.forEach(ring => {
             let pi = 3.14;
             for (let i = 0; i < ring[0]; i++) {
 
-                let x = (ring[1] * this.skyRadius) * Math.cos(2 * pi * i / ring[0])
-                let y = (ring[1] * this.skyRadius) * Math.sin(2 * pi * i / ring[0])
+                let x = (ring[1] * skyRadius) * Math.cos(2 * pi * i / ring[0])
+                let y = (ring[1] * skyRadius) * Math.sin(2 * pi * i / ring[0])
 
                 // the i loop puts asteroids in a series of rings on the x-y axis of the sphere
                 // the j loop spreads them out along the z axis
 
                 for (let j = 0; j < ring[2]; j++) {
 
-                    let z = this.skyRadius * (j / ring[2]) * ((j % 2 == 0)
+                    let z = skyRadius * (j / ring[2]) * ((j % 2 == 0)
                         ? -1
                         : 1)
                     // second part simply alternates between positive and negative values
 
-                    if ((x * x + y * y + z * z) < (this.skyRadius * this.skyRadius)) {
-                        let mesh = this.createOneAsteroid();
-                        mesh.position = new Vector3(x, y, z);
-                        this
-                            .asteroids
-                            .push(mesh);
+                    if ((x * x + y * y + z * z) < (skyRadius * skyRadius)) {
+
+                        let size = this.randomVector3(5, 3);
+                        let position = new Vector3(x, y, z);
+                        let linearV = new Vector3(this.randomMotion(), this.randomMotion(), this.randomMotion())
+                        let angularV = new Vector3(this.randomMotion() * Math.PI, this.randomMotion() * Math.PI, this.randomMotion() * Math.PI)
+
+                        let mesh = this.createOneAsteroid(scene, size, position, linearV, angularV);
+                        mesh.material = material = asteroidGridMaterial;
+
+                        this.asteroids.push(mesh);
                     }
                 }
             }
         })
 
-    }
-
-    randomMotion() {
-        return (Math.random() - 0.5);
     }
 
     update() {
@@ -137,11 +129,52 @@ export class Asteroids {
                 // save old position
                 let oldRotation = element.rotation;
                 let oldPosition = element.position;
-                // try out new position            element.rotation.addInPlace(element.rotate);
-                //          element.position.addInPlace(element.motion);
+
+                // try out new position
+                // // element.rotation.addInPlace(element.rotate);
+                // // element.position.addInPlace(element.motion);
 
             });
 
+    }
+
+    // create a random number Vector3 with scaling and offsetpositi
+    randomVector3(scale: number, offset: number): Vector3 {
+        return new Vector3(
+            Math.random() * scale + offset,
+            Math.random() * scale + offset,
+            Math.random() * scale + offset
+        )
+    }
+
+
+    randomMotion() {
+        return (Math.random() - 0.5);   // value between -.5 and .5
+    }
+
+
+    // given a position, linear velocity, and angular velocity, we return a mesh
+    createOneAsteroid(scene: Scene, size: Vector3, position: Vector3, linearV: Vector3, angularV: Vector3): Mesh {
+
+        let mesh = MeshBuilder.CreateSphere("", {
+            diameterX: size.x,
+            diameterY: size.y,
+            diameterZ: size.z
+        }, scene);
+
+        mesh.position = position;
+
+        // normally the object mesh has a more complicated shape than the imposter
+        // ours should be exactly the same
+        mesh.physicsImpostor = new PhysicsImpostor(mesh, PhysicsImpostor.SphereImpostor, {
+            mass: 1,
+            restitution: 1.0
+        }, scene);
+
+        mesh.physicsImpostor.setLinearVelocity(linearV);
+        mesh.physicsImpostor.setAngularVelocity(angularV);
+
+        return (mesh);
     }
 
 }
