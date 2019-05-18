@@ -1,4 +1,4 @@
-import { Engine, Scene, Camera, FreeCamera, Mesh, Vector3, VertexData, HemisphericLight, StandardMaterial } from "@babylonjs/core";
+import { Engine, Scene, Camera, FreeCamera, Mesh, Vector3, VertexData, HemisphericLight, StandardMaterial } from "babylonjs";
 //import { StandardMaterial } from '@babylonjs/materials';
 
 import {Asteroids} from './asteroids';   // we are going to use an asteroid as a reference shape
@@ -25,7 +25,7 @@ export class Icosahedron {
     createVertexData():VertexData{
 
         let a=5,b=6;
-        let vertexData = new VertexData();
+        let vertexData = new BABYLON.VertexData();
         vertexData.positions = [0,0,0, 0,b,-a, 0,0,0, b,a,0, 0,0,0, -b-a-0];
         vertexData.indices = [1,2,3];
         return(vertexData);
@@ -162,10 +162,10 @@ export class Icosahedron {
     create(scene: Scene, camera: Camera) {
 
         // create a basic light, aiming 0,1,0 - meaning, to the sky
-        let light = new HemisphericLight("light1", new Vector3(0, 1, 0), scene);
+        let light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
 
         //Create a custom mesh
-        var customMesh = new Mesh("custom", scene);
+        var customMesh = new BABYLON.Mesh("custom", scene);
 
         // get the vertextData for our shape
         let vertexData = this.createVertexData();
@@ -175,7 +175,7 @@ export class Icosahedron {
 
 
         /******Display custom mesh in wireframe view to show its creation****************/
-        var mat = new StandardMaterial("mat", scene);
+        var mat = new BABYLON.StandardMaterial("mat", scene);
         mat.wireframe = true;
         customMesh.material = mat;
 
@@ -184,9 +184,9 @@ export class Icosahedron {
         let asteroids = new Asteroids();
 
         let size = asteroids.randomVector3(5,3);
-        let position = new Vector3(10,0,0);
-        let linearV = new Vector3(0,0,0);
-        let angularV = new Vector3(0,0,0);
+        let position = new BABYLON.Vector3(10,0,0);
+        let linearV = new BABYLON.Vector3(0,0,0);
+        let angularV = new BABYLON.Vector3(0,0,0);
 
         asteroids.createOneAsteroid(scene,size,position,linearV,angularV,mat);
 

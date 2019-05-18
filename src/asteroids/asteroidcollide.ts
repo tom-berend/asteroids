@@ -15,16 +15,16 @@ import {
     Quaternion,
     PhysicsImpostor,
     AmmoJSPlugin
-} from '@babylonjs/core';
+} from 'babylonjs';
 
-import { GridMaterial } from '@babylonjs/materials';
+import { GridMaterial } from 'babylonjs-materials'
 
 import { Asteroids } from './asteroids';
 
 export class AsteroidCollide {
 
-    private asteroidGridMaterial: GridMaterial;
-    private skyMaterial: GridMaterial;
+    // private asteroidGridMaterial: GridMaterial;
+    // private skyMaterial: GridMaterial;
 
     constructor() {
         console.log('in AsteroidCollide constructor');
@@ -35,19 +35,19 @@ export class AsteroidCollide {
 
     create(scene: Scene, camera: Camera) {
 
-        let asteroidGridMaterial = new GridMaterial("", scene);
+        let asteroidGridMaterial = new BABYLON.GridMaterial("", scene);
         asteroidGridMaterial.majorUnitFrequency = 3;
         asteroidGridMaterial.gridRatio = 0.5;
 
 
-        let skyMaterial = new GridMaterial("skyMaterial", scene);
+        let skyMaterial = new BABYLON.GridMaterial("skyMaterial", scene);
         skyMaterial.majorUnitFrequency = 6;
-        skyMaterial.mainColor = new Color3(0, 0.05, 0.2);
-        skyMaterial.lineColor = new Color3(0, 1.0, 1.0);
+        skyMaterial.mainColor = new BABYLON.Color3(0, 0.05, 0.2);
+        skyMaterial.lineColor = new BABYLON.Color3(0, 1.0, 1.0);
 
 
         // create a basic light, aiming 0,1,0 - meaning, to the sky
-        let light = new HemisphericLight("light1", new Vector3(0, 1, 0), scene);
+        let light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
 
 
         // let a1 = MeshBuilder.CreateSphere("mySphere", {
@@ -61,43 +61,43 @@ export class AsteroidCollide {
 
         let size, position, linearV, angularV;
 
-        size = new Vector3(2, 4, 6);
+        size = new BABYLON.Vector3(2, 4, 6);
 
         // these three are heading right
-        linearV = new Vector3(1, 0, 0)
-        position = new Vector3(-5, 8, 0)
-        angularV = new Vector3(0, 0, 0)
+        linearV = new BABYLON.Vector3(1, 0, 0)
+        position = new BABYLON.Vector3(-5, 8, 0)
+        angularV = new BABYLON.Vector3(0, 0, 0)
 
         let a1 = asteroids.createOneAsteroid(scene, size, position, linearV, angularV);
 
-        position = new Vector3(-5, 0, 0)
-        angularV = new Vector3(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI)
+        position = new BABYLON.Vector3(-5, 0, 0)
+        angularV = new BABYLON.Vector3(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI)
 
         let b1 = asteroids.createOneAsteroid(scene, size, position, linearV, angularV);
 
-        position = new Vector3(-5, -8, 0)
-        angularV = new Vector3(0, 0, 0)
+        position = new BABYLON.Vector3(-5, -8, 0)
+        angularV = new BABYLON.Vector3(0, 0, 0)
         let c1 = asteroids.createOneAsteroid(scene, size, position, linearV, angularV);
         if(c1.physicsImpostor)  // because I'm using typescript
-           c1.physicsImpostor.applyImpulse(new Vector3(-0.1,0,0), new Vector3(2,2,2));
+           c1.physicsImpostor.applyImpulse(new BABYLON.Vector3(-0.1,0,0), new BABYLON.Vector3(2,2,2));
 
 
         // these three are heading left
-        linearV = new Vector3(-1, 0, 0)
-        position = new Vector3(5, 8, 0)
-        angularV = new Vector3(0, 0, 0)
+        linearV = new BABYLON.Vector3(-1, 0, 0)
+        position = new BABYLON.Vector3(5, 8, 0)
+        angularV = new BABYLON.Vector3(0, 0, 0)
 
         let a2 = asteroids.createOneAsteroid(scene, size, position, linearV, angularV);
 
-        position = new Vector3(5, 0, 0)
-        angularV = new Vector3(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI)
+        position = new BABYLON.Vector3(5, 0, 0)
+        angularV = new BABYLON.Vector3(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI)
         let b2 = asteroids.createOneAsteroid(scene, size, position, linearV, angularV);
 
-        position = new Vector3(5, -8, 0)
-        angularV = new Vector3(0, 0, 0)
+        position = new BABYLON.Vector3(5, -8, 0)
+        angularV = new BABYLON.Vector3(0, 0, 0)
         let c2 = asteroids.createOneAsteroid(scene, size, position, linearV, angularV);
         if(c2.physicsImpostor)  // because I'm using typescript
-           c2.physicsImpostor.applyImpulse(new Vector3(0.1,0,0), new Vector3(2,2,2));
+           c2.physicsImpostor.applyImpulse(new BABYLON.Vector3(0.1,0,0), new BABYLON.Vector3(2,2,2));
 
     }
 
@@ -108,7 +108,7 @@ export class AsteroidCollide {
     // given a position, linear velocity, and angular velocity, we return a mesh
     createOneAsteroid(scene: Scene, size: Vector3, position: Vector3, linearV: Vector3, angularV: Vector3): Mesh {
 
-        let mesh = MeshBuilder.CreateSphere(uniqid, {
+        let mesh = BABYLON.MeshBuilder.CreateSphere("", {
             diameterX: size.x,
             diameterY: size.y,
             diameterZ: size.z

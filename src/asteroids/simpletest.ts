@@ -10,7 +10,7 @@ import {
     HemisphericLight,
     AmmoJSPlugin,
     Mesh
-} from "@babylonjs/core";
+} from "babylonjs";
 
 
 export class SimpleTest {
@@ -21,18 +21,16 @@ export class SimpleTest {
         console.log('in SimpleTest constructor');
     }
 
+
+
     create(scene: Scene, camera: Camera) {
         console.log('in SimpleTest:create()')
 
-
         // Add lights to the scene
-        var light1 = new HemisphericLight("light1", new Vector3(1, 1, 0), scene);
+        var light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 1, 0), scene);
 
         // This is where you create and manipulate meshes
-        this.box = MeshBuilder.CreateBox("box", {}, scene);
-
-
-
+        this.box = BABYLON.MeshBuilder.CreateBox("box", {height: 5, width: 2, depth: 3}, scene);
     }
 
 

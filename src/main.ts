@@ -1,12 +1,10 @@
-// import 'core-js'; // <- at the top of your entry point
-
 
 ////////////////////////////////////////////////////
 // theses are different 'games'.  Don't want to recreate the
 // whole environment just to test or develop a feature.
 // the production game is 0
 
-const whichGame: number = 1;
+const whichGame: number = 3;
 
 /* 0 */ import { Asteroids } from "./asteroids/asteroids";
 /* 1 */ import { AsteroidCollide } from "./asteroids/asteroidcollide";
@@ -14,7 +12,6 @@ const whichGame: number = 1;
 /* 3 */ import { SimpleTest } from "./asteroids/simpletest";
 
 ////////////////////////////////////////////////////
-
 
 
 
@@ -29,44 +26,9 @@ import {
     HemisphericLight,
     MeshBuilder,
     AmmoJSPlugin
-} from "@babylonjs/core";
+} from "babylonjs";
 
-
-export class Assert {
-
-    // use asserts to check and document boundary conditions, and stuff that
-    // TypeScript's types won't find.
-
-    // Asserts document that you designed your code so that some condition is
-    // always (meant to) be true at that time, taking into account the interactions
-    // between components.
-
-    // let assert = new Assert();
-    // assert.true(true, new Error('Test Passes'));
-    // assert.true(false, new Error('Test Fails'));
-
-    public true(outcome: Boolean, description: Error): void {
-        if (!outcome) {
-            // outdiv and output might be null
-            const assertdiv = document.getElementById("assertdiv");
-            const output = document.getElementById('output');
-
-            if (assertdiv && output) {  // either HTMLElement or null
-                assertdiv.style.display = "block";
-                assertdiv.style.backgroundColor = "yellow";
-                var li = document.createElement('li');
-                li.innerHTML = "<span style='color:red;font-weight:bold;'>FAIL</span> " +
-                    description;
-
-                output.appendChild(li);
-            }
-            // we also print to the console in error colours so we can get the line number
-            // hide the display warnings in production by removing the <div>, will still get console errors
-            console.log('%c' + description, 'background: yellow; color: red')
-        }
-    };
-
-}
+import {Assert} from './utils/assert'
 
 class SomeGame {
     private canvas: HTMLCanvasElement;
@@ -86,27 +48,27 @@ class SomeGame {
         // Create canvas and engine
         this.canvas = document.getElementById(canvasElement) as HTMLCanvasElement;
         console.log(this.canvas)
-        var engine = new Engine(this.canvas, true);
+        var engine = new BABYLON.Engine(this.canvas, true);
 
 
-        // this.camera = new FreeCamera("camera0", new Vector3(0, 5, -10), this.scene);
+        // this.camera = new FreeCamera("camera0", new BABYLON.BABYLON.Vector3(0, 5, -10), this.scene);
 
-        // this.camera.setTarget(Vector3.Zero());
+        // this.camera.setTarget(BABYLON.Vector3.Zero());
         // this.camera.attachControl(this.canvas, false);
 
         window.addEventListener("DOMContentLoaded", () => {
 
-            let scene = new Scene(this.engine);
-            let gravityVector = new Vector3(0, 0, 0); // initially no gravity
-            let physicsPlugin = new AmmoJSPlugin();
+            let scene = new BABYLON.Scene(engine);
+            let gravityVector = new BABYLON.Vector3(0, 0, 0); // initially no gravity
+            let physicsPlugin = new BABYLON.AmmoJSPlugin();
             scene.enablePhysics(gravityVector, physicsPlugin);
 
             // default is a FreeCamera, position set to (x:0, y:0, z:-50)
-            let camera = new FreeCamera("camera1", new Vector3(0, 0, -50), scene);
-            camera.setTarget(Vector3.Zero());
+            let camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 0, -50), scene);
+            camera.setTarget(BABYLON.Vector3.Zero());
 
             // // Add a camera to the scene and attach it to the canvas
-            // let camera:Camera = new ArcRotateCamera("Camera", Math.PI / 2, Math.PI / 2, 2, Vector3.Zero(), scene);
+            // let camera:Camera = new ArcRotateCamera("Camera", Math.PI / 2, Math.PI / 2, 2, BABYLON.Vector3.Zero(), scene);
 
 
             var gameboard;
