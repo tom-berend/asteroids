@@ -1,26 +1,18 @@
 import {
-    Engine,
     Scene,
     Camera,
-    FreeCamera,
-    ArcRotateCamera,
-    Light,
-    MeshBuilder,
-    Vector3,
-    HemisphericLight,
-    AmmoJSPlugin,
     Mesh
 } from "babylonjs";
 
 
+
 export class SimpleTest {
 
-    private box: Mesh;
+    private box: Mesh | undefined;     // don't want to declare it in the constructor
 
     constructor() {
         console.log('in SimpleTest constructor');
     }
-
 
 
     create(scene: Scene, camera: Camera) {
@@ -30,12 +22,14 @@ export class SimpleTest {
         var light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 1, 0), scene);
 
         // This is where you create and manipulate meshes
-        this.box = BABYLON.MeshBuilder.CreateBox("box", {height: 5, width: 2, depth: 3}, scene);
+        this.box = BABYLON.MeshBuilder.CreateBox("box", { height: 5, width: 2, depth: 3 }, scene);
     }
 
 
-    update(scene:Scene,camera:Camera) {
-        this.box.rotation.x += .01;
-        this.box.rotation.y += .01;
+    update(scene: Scene, camera: Camera) {
+        if (this.box) {     // might be undefined
+            this.box.rotation.x += .01;
+            this.box.rotation.y += .01;
+        }
     }
 }
