@@ -5,6 +5,7 @@
 .cache
 yarn.lock
 *.log
+.rpt2*
 
 # Node Modules
 node_modules/*

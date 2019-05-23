@@ -1,132 +1,163 @@
 
-// set up 'astroid world' inside a sphere
 
-import {
-    Engine,
-    Scene,
-    Camera,
-    FreeCamera,
-    Light,
-    HemisphericLight,
-    Color3,
-    Vector3,
-    Mesh,
-    MeshBuilder,
-    Quaternion,
-    PhysicsImpostor,
-    AmmoJSPlugin
-} from 'babylonjs';
 
-import { GridMaterial } from 'babylonjs-materials'
+import { Engine } from '../../../src/Engines/engine'
+import { Mesh } from "../../../src/Meshes/mesh"
+import { UniversalCamera } from '../../../src/Cameras/universalCamera';
+import { Camera } from "../../../src/Cameras/camera"
+import { Vector3 } from "../../../src/Maths/math"
+import { Color3 } from "../../../src/Maths/math"
+import { HemisphericLight } from "../../../src/Lights/hemisphericLight"
+import { Scene } from '../../../src/scene'
+import { MeshBuilder } from '../../../src/Meshes/meshBuilder'
+import { PhysicsImpostor } from '../../../src/Physics/physicsImpostor'
+import { StandardMaterial } from '../../../src/Materials/standardMaterial'
 
-import { Asteroids } from './asteroids';
+//import { Assert } from '../utils/assert';
 
 export class AsteroidCollide {
 
     // private asteroidGridMaterial: GridMaterial;
     // private skyMaterial: GridMaterial;
 
-    constructor() {
-        console.log('in AsteroidCollide constructor');
-    }
+    //var asteroidGridMaterial = new BABYLON.StandardMaterial("myMaterial", scene);
 
-    preload() { }
+    private b1: any;
+    private b2: any;
+    private c1: any;
+    private c2: any;
 
+    constructor() { }
 
-    create(scene: Scene, camera: Camera) {
-
-        let asteroidGridMaterial = new BABYLON.GridMaterial("", scene);
-        asteroidGridMaterial.majorUnitFrequency = 3;
-        asteroidGridMaterial.gridRatio = 0.5;
+    test() { }
 
 
-        let skyMaterial = new BABYLON.GridMaterial("skyMaterial", scene);
-        skyMaterial.majorUnitFrequency = 6;
-        skyMaterial.mainColor = new BABYLON.Color3(0, 0.05, 0.2);
-        skyMaterial.lineColor = new BABYLON.Color3(0, 1.0, 1.0);
+    createScene(engine: Engine, canvas: HTMLCanvasElement): Scene {
 
+
+        console.log('in collide createScene');
+        let scene = new Scene(engine);
+
+
+
+        let gravityVector = new Vector3(0, 0, 0); // initially no gravity
+        //let physicsPlugin = new AmmoJSPlugin();
+        // @ ts-ignore
+        //scene.enablePhysics(gravityVector, physicsPlugin);
+
+
+        // default is a UniversalCamera, position set to (x:0, y:0, z:-50)
+        console.log(2);
+        let camera = new UniversalCamera("camera1", new Vector3(0, 0, -50), scene);
+        camera.attachControl(canvas, true);
+        camera.setTarget(Vector3.Zero());
 
         // create a basic light, aiming 0,1,0 - meaning, to the sky
-        let light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
+        let light = new HemisphericLight("light1", new Vector3(0, 1, 0), scene);
+
+        console.log(2.5);
 
 
-        // let a1 = MeshBuilder.CreateSphere("mySphere", {
-        //     diameterX: Math.random() * 5 + 2,
-        //     diameterY: Math.random() * 5 + 2,
-        //     diameterZ: Math.random() * 5 + 2
-        // }, this.scene);
-
-        let asteroids = new Asteroids();
+        // // this seems to have necessary side-effects (blech)
+        let standardMaterial = new StandardMaterial('', scene);
 
 
         let size, position, linearV, angularV;
+        console.log(4);
 
-        size = new BABYLON.Vector3(2, 4, 6);
+        size = new Vector3(2, 4, 10);
+        linearV = new Vector3(0.5, 0, 0)
+        angularV = new Vector3(0, -1, 0)
 
-        // these three are heading right
-        linearV = new BABYLON.Vector3(1, 0, 0)
-        position = new BABYLON.Vector3(-5, 8, 0)
-        angularV = new BABYLON.Vector3(0, 0, 0)
-
-        let a1 = asteroids.createOneAsteroid(scene, size, position, linearV, angularV);
-
-        position = new BABYLON.Vector3(-5, 0, 0)
-        angularV = new BABYLON.Vector3(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI)
-
-        let b1 = asteroids.createOneAsteroid(scene, size, position, linearV, angularV);
-
-        position = new BABYLON.Vector3(-5, -8, 0)
-        angularV = new BABYLON.Vector3(0, 0, 0)
-        let c1 = asteroids.createOneAsteroid(scene, size, position, linearV, angularV);
-        if(c1.physicsImpostor)  // because I'm using typescript
-           c1.physicsImpostor.applyImpulse(new BABYLON.Vector3(-0.1,0,0), new BABYLON.Vector3(2,2,2));
-
-
-        // these three are heading left
-        linearV = new BABYLON.Vector3(-1, 0, 0)
-        position = new BABYLON.Vector3(5, 8, 0)
-        angularV = new BABYLON.Vector3(0, 0, 0)
-
-        let a2 = asteroids.createOneAsteroid(scene, size, position, linearV, angularV);
-
-        position = new BABYLON.Vector3(5, 0, 0)
-        angularV = new BABYLON.Vector3(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI)
-        let b2 = asteroids.createOneAsteroid(scene, size, position, linearV, angularV);
-
-        position = new BABYLON.Vector3(5, -8, 0)
-        angularV = new BABYLON.Vector3(0, 0, 0)
-        let c2 = asteroids.createOneAsteroid(scene, size, position, linearV, angularV);
-        if(c2.physicsImpostor)  // because I'm using typescript
-           c2.physicsImpostor.applyImpulse(new BABYLON.Vector3(0.1,0,0), new BABYLON.Vector3(2,2,2));
-
-    }
-
-    update() {
-    }
-
-
-    // given a position, linear velocity, and angular velocity, we return a mesh
-    createOneAsteroid(scene: Scene, size: Vector3, position: Vector3, linearV: Vector3, angularV: Vector3): Mesh {
-
-        let mesh = BABYLON.MeshBuilder.CreateSphere("", {
+        this.b1 = MeshBuilder.CreateSphere("", {
             diameterX: size.x,
             diameterY: size.y,
             diameterZ: size.z
         }, scene);
 
-        mesh.position = position;
+        position = new Vector3(-8, 8, 0)
 
-        // normally the object mesh has a more complicated shape than the imposter
-        // ours should be exactly the same
-        mesh.physicsImpostor = new PhysicsImpostor(mesh, PhysicsImpostor.SphereImpostor, {
-            mass: 1,
-            restitution: 1.0
+        this.b1.position = position
+
+        // b1.physicsImpostor = new PhysicsImpostor(b1, PhysicsImpostor.MeshImpostor, {
+        //     mass: 1,
+        //     restitution: 1.0
+        // }, scene);
+
+        // b1.physicsImpostor.setLinearVelocity(linearV);
+        // b1.physicsImpostor.setAngularVelocity(angularV);
+
+
+        this.c1 = MeshBuilder.CreateBox("", {
+            width: size.x,
+            height: size.y,
+            depth: size.z
         }, scene);
 
-        mesh.physicsImpostor.setLinearVelocity(linearV);
-        mesh.physicsImpostor.setAngularVelocity(angularV);
+        position = new Vector3(-8, -8, 0)
+        this.c1.position = position;
 
-        return (mesh);
+        // c1.physicsImpostor = new PhysicsImpostor(c1, PhysicsImpostor.BoxImpostor, {
+        //     mass: 1,
+        //     restitution: 1.0
+        // }, scene);
+
+        // c1.physicsImpostor.setLinearVelocity(linearV);
+        // c1.physicsImpostor.setAngularVelocity(angularV);
+
+
+
+
+
+        linearV = new Vector3(-0.5, 0, 0)
+
+
+        this.b2 = MeshBuilder.CreateSphere("", {
+            diameterX: size.x,
+            diameterY: size.y,
+            diameterZ: size.z
+        }, scene);
+
+        this.b2.position = new Vector3(8, 8, 0)
+
+        // b2.physicsImpostor = new PhysicsImpostor(b2, PhysicsImpostor.MeshImpostor, {
+        //     mass: 1,
+        //     restitution: 1.0
+        // }, scene);
+
+        // b2.physicsImpostor.setLinearVelocity(linearV);
+        // b2.physicsImpostor.setAngularVelocity(angularV);
+
+
+
+        this.c2 = MeshBuilder.CreateBox("", {
+            width: size.x,
+            height: size.y,
+            depth: size.z
+        }, scene);
+
+        position = new Vector3(8, -8, 0)
+        this.c2.position = position;
+
+        // c2.physicsImpostor = new PhysicsImpostor(c2, PhysicsImpostor.BoxImpostor, {
+        //     mass: 1,
+        //     restitution: 1.0
+        // }, scene);
+
+        // c2.physicsImpostor.setLinearVelocity(linearV);
+        // c2.physicsImpostor.setAngularVelocity(angularV);
+
+        return (scene)
     }
+
+    update() {
+        this.b1.rotation.y += 0.01
+        this.b2.rotation.y += 0.01
+        this.c1.rotation.y += 0.01
+        this.c2.rotation.y += 0.01
+        //
+    }
+
+
 
 }

@@ -440,6 +440,10 @@ declare namespace Ammo {
 		constructor(radius: number);
 	}
 
+	class btMultiSphereShape extends btConvexShape {
+		constructor(positions: btVector3Array, radius: number, numSpheres: number);
+	}
+
 	class btConeShape extends btConvexShape {
 		constructor(radius: number, height: number);
 	}
