@@ -11,7 +11,7 @@ import { PhysicsImpostor } from '../../../src/Physics/physicsImpostor'
 import { Color3 } from '../../../src/Maths/math'
 
 //import { GridMaterial } from 'babylonjs-materials';
-import { Assert } from '../utils/assert';
+import { Assert } from './assert';
 //import {CANNON} from 'cannon';
 
 export class Asteroids {

@@ -21,7 +21,7 @@ export default {
 
 	output: {
 		file: 'dist/BJS.js',		// not BABYLON (for now) to avoid confusion
-		format: 'umd',				// or iife
+		format: 'iife',				// umd or iife
 		sourcemap: true,
 		name: 'asteroids.js'
 	},

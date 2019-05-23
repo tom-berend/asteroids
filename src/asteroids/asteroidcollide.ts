@@ -13,7 +13,7 @@ import { MeshBuilder } from '../../../src/Meshes/meshBuilder'
 import { PhysicsImpostor } from '../../../src/Physics/physicsImpostor'
 import { StandardMaterial } from '../../../src/Materials/standardMaterial'
 
-//import { Assert } from '../utils/assert';
+import { assert } from './assert';
 
 export class AsteroidCollide {
 
@@ -39,15 +39,11 @@ export class AsteroidCollide {
         let scene = new Scene(engine);
 
 
-
         let gravityVector = new Vector3(0, 0, 0); // initially no gravity
         //let physicsPlugin = new AmmoJSPlugin();
         // @ ts-ignore
         //scene.enablePhysics(gravityVector, physicsPlugin);
 
-
-        // default is a UniversalCamera, position set to (x:0, y:0, z:-50)
-        console.log(2);
         let camera = new UniversalCamera("camera1", new Vector3(0, 0, -50), scene);
         camera.attachControl(canvas, true);
         camera.setTarget(Vector3.Zero());
@@ -55,10 +51,7 @@ export class AsteroidCollide {
         // create a basic light, aiming 0,1,0 - meaning, to the sky
         let light = new HemisphericLight("light1", new Vector3(0, 1, 0), scene);
 
-        console.log(2.5);
-
-
-        // // this seems to have necessary side-effects (blech)
+        // // this seems to have necessary side-effects
         let standardMaterial = new StandardMaterial('', scene);
 
 

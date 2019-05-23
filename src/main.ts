@@ -21,10 +21,8 @@ const whichGame: number = 1;
 
 import { Engine } from '../../src/Engines/engine'
 import { Scene } from '../../src/scene'
-import { MeshBuilder } from '../../src/Meshes/meshBuilder'
-import { StandardMaterial } from '../../src/Materials/standardMaterial'
 
-import { Assert } from './utils/assert'
+import { assert } from './asteroids/assert'
 
 
 export class BJS {
@@ -33,12 +31,10 @@ export class BJS {
 
     constructor(canvasElement: HTMLCanvasElement, x?: boolean) {
         this.canvasElement = canvasElement
-    }
 
-    createScene(): void {
+        assert(true, 'Test Passes');
+        // assert(false, 'Test Fails');
 
-        let assert = new Assert();
-        assert.true(false, new Error('assert false works'));
 
         let engine = new Engine(this.canvasElement);
 
@@ -58,8 +54,8 @@ export class BJS {
                 //                    gameboard = new SimpleTest();
                 break;
             default:
-                assert = new Assert()
-                assert.true(false, new Error('not a valid gameboard choice: ' + whichGame.toString()));
+            // assert = new Assert()
+            // assert.true(false, 'not a valid gameboard choice: ' + whichGame.toString());
         }
 
 
@@ -69,19 +65,17 @@ export class BJS {
         // don't really care about scene, just making this consistant with BABYLON
         let scene: Scene = gameboard.createScene(engine, this.canvasElement);
 
+
+        ///////////////////////
+        //  keep it running...
+
         engine.runRenderLoop(() => {
             gameboard.update();
             scene.render();
         });
-
-
     }
 
 }
-
-// let assert = new Assert();
-// assert.true(true, new Error('Test Passes'));
-// // assert.true(false, new Error('Test Fails'));
 
 
 
@@ -89,9 +83,7 @@ window.addEventListener("DOMContentLoaded", () => {
     let canvas: any = document.getElementById("renderCanvas"); // Get the canvas element
     if (canvas) {
         let bjs = new BJS(canvas, true); // Generate the BABYLON 3D engine
-        bjs.createScene();
     } else {
-        let assert = new Assert();
-        assert.true(false, new Error('did not find canvas "renderCanvas"'))
+        assert(false, 'did not find canvas "renderCanvas"')
     }
 })
