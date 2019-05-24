@@ -1,6 +1,5 @@
 
 
-
 import { Engine } from '../../../src/Engines/engine'
 import { Mesh } from "../../../src/Meshes/mesh"
 import { UniversalCamera } from '../../../src/Cameras/universalCamera';
@@ -17,13 +16,8 @@ import { assert } from './assert';
 
 export class AsteroidCollide {
 
-    // private asteroidGridMaterial: GridMaterial;
-    // private skyMaterial: GridMaterial;
-
-    //var asteroidGridMaterial = new BABYLON.StandardMaterial("myMaterial", scene);
-
-    private b1: any;
-    private b2: any;
+    private b1: any;        // not sure how to do this nicely
+    private b2: any;        // because creating a mesh has side-effects
     private c1: any;
     private c2: any;
 
@@ -31,9 +25,7 @@ export class AsteroidCollide {
 
     test() { }
 
-
     createScene(engine: Engine, canvas: HTMLCanvasElement): Scene {
-
 
         console.log('in collide createScene');
         let scene = new Scene(engine);

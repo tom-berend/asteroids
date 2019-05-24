@@ -11,7 +11,7 @@ import { PhysicsImpostor } from '../../../src/Physics/physicsImpostor'
 import { Color3 } from '../../../src/Maths/math'
 
 //import { GridMaterial } from 'babylonjs-materials';
-import { Assert } from './assert';
+import { assert } from './assert';
 //import {CANNON} from 'cannon';
 
 export class Asteroids {
@@ -50,7 +50,6 @@ export class Asteroids {
         // create a basic light, aiming 0,1,0 - meaning, to the sky
         let light = new HemisphericLight("light1", new Vector3(0, 1, 0), scene);
 
-        var asteroidGridMaterial = new BABYLON.StandardMaterial("myMaterial", scene);
 
         let asteroidGridMaterial = new GridMaterial("", scene);
         asteroidGridMaterial.majorUnitFrequency = 3;

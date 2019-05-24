@@ -8,12 +8,13 @@ import 'core-js'; // <- at the top of your entry point
 // below are different tests ('games').  Don't want to recreate the
 // whole environment just to test or develop a feature.
 
-const whichGame: number = 1;
+const whichGame: number = 4;
 
 ///* 0 */ import { Asteroids } from "./asteroids/asteroids";
 /* 1 */ import { AsteroidCollide } from "./asteroids/asteroidcollide";
 ///* 2 */ import { Icosahedron } from "./asteroids/icosahedron";
 ///* 3 */ import { SimpleTest } from "./asteroids/simpletest";
+/* 4 */ import { Fresnel } from "./asteroids/fresnel";
 
 
 ////////////////////////////////////////////////////
@@ -53,13 +54,14 @@ export class BJS {
             case 3:
                 //                    gameboard = new SimpleTest();
                 break;
+            case 4:
+                gameboard = new Fresnel();
+                break;
             default:
-            // assert = new Assert()
-            // assert.true(false, 'not a valid gameboard choice: ' + whichGame.toString());
+             assert(false, 'not a valid gameboard choice: ' + whichGame.toString());
         }
 
 
-        gameboard = new AsteroidCollide();
         gameboard.test();   // always run the test script first
 
         // don't really care about scene, just making this consistant with BABYLON
