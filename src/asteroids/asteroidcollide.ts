@@ -1,16 +1,21 @@
+// from https://playground.babylonjs.com/#6QF3KP#14
+
+// this demonstrates a bug in the AMMO physics interface
+// the reason i created the rollup build was to fix that bug
 
 
-import { Engine } from '../../../src/Engines/engine'
-import { Mesh } from "../../../src/Meshes/mesh"
-import { UniversalCamera } from '../../../src/Cameras/universalCamera';
-import { Camera } from "../../../src/Cameras/camera"
-import { Vector3 } from "../../../src/Maths/math"
-import { Color3 } from "../../../src/Maths/math"
-import { HemisphericLight } from "../../../src/Lights/hemisphericLight"
-import { Scene } from '../../../src/scene'
-import { MeshBuilder } from '../../../src/Meshes/meshBuilder'
-import { PhysicsImpostor } from '../../../src/Physics/physicsImpostor'
-import { StandardMaterial } from '../../../src/Materials/standardMaterial'
+
+import { Engine } from '../../../Babylon.js/src/Engines/engine'
+import { Mesh } from "../../../Babylon.js/src/Meshes/mesh"
+import { UniversalCamera } from '../../../Babylon.js/src/Cameras/universalCamera';
+import { Camera } from "../../../Babylon.js/src/Cameras/camera"
+import { Vector3 } from "../../../Babylon.js/src/Maths/math"
+import { Color3 } from "../../../Babylon.js/src/Maths/math"
+import { HemisphericLight } from "../../../Babylon.js/src/Lights/hemisphericLight"
+import { Scene } from '../../../Babylon.js/src/scene'
+import { MeshBuilder } from '../../../Babylon.js/src/Meshes/meshBuilder'
+import { PhysicsImpostor } from '../../../Babylon.js/src/Physics/physicsImpostor'
+import { StandardMaterial } from '../../../Babylon.js/src/Materials/standardMaterial'
 
 import { assert } from './assert';
 
@@ -27,9 +32,7 @@ export class AsteroidCollide {
 
     createScene(engine: Engine, canvas: HTMLCanvasElement): Scene {
 
-        console.log('in collide createScene');
         let scene = new Scene(engine);
-
 
         let gravityVector = new Vector3(0, 0, 0); // initially no gravity
         //let physicsPlugin = new AmmoJSPlugin();

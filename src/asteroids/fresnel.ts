@@ -3,25 +3,25 @@
 
 
 
-import { Engine } from '../../../src/Engines/engine'
-import { Mesh } from "../../../src/Meshes/mesh"
-import { UniversalCamera } from '../../../src/Cameras/universalCamera';
-import { ArcRotateCamera } from '../../../src/Cameras/arcRotateCamera'
-import { Camera } from "../../../src/Cameras/camera"
-import { Vector3, Color3 } from "../../../src/Maths/math"
-import { HemisphericLight } from "../../../src/Lights/hemisphericLight"
-import { Scene } from '../../../src/scene'
-import { MeshBuilder } from '../../../src/Meshes/meshBuilder'
-import { PhysicsImpostor } from '../../../src/Physics/physicsImpostor'
-import { StandardMaterial } from '../../../src/Materials/standardMaterial'
-import { PointLight } from '../../../src/Lights/pointLight'
-import {Texture} from '../../../src/Materials/Textures/texture'
+import { Scene } from '../../../Babylon.js/src/scene'
+import { Mesh } from "../../../Babylon.js/src/Meshes/mesh"
+import { Camera } from "../../../Babylon.js/src/Cameras/camera"
+import { Engine } from '../../../Babylon.js/src/Engines/engine'
+import { UniversalCamera } from '../../../Babylon.js/src/Cameras/universalCamera';
+import { ArcRotateCamera } from '../../../Babylon.js/src/Cameras/arcRotateCamera'
+import { Vector3, Color3 } from "../../../Babylon.js/src/Maths/math"
+import { HemisphericLight } from "../../../Babylon.js/src/Lights/hemisphericLight"
+import { MeshBuilder } from '../../../Babylon.js/src/Meshes/meshBuilder'
+import { PhysicsImpostor } from '../../../Babylon.js/src/Physics/physicsImpostor'
+import { StandardMaterial } from '../../../Babylon.js/src/Materials/standardMaterial'
+import { PointLight } from '../../../Babylon.js/src/Lights/pointLight'
+import { Texture } from '../../../Babylon.js/src/Materials/Textures/texture'
 
-import { CubeTexture } from '../../../src/Materials/Textures/cubeTexture'
-import { FresnelParameters } from '../../../src/Materials/fresnelParameters'
+import { CubeTexture } from '../../../Babylon.js/src/Materials/Textures/cubeTexture'
+import { FresnelParameters } from '../../../Babylon.js/src/Materials/fresnelParameters'
 
 import { assert } from './assert';
-import { Material } from '../../../src/Materials/material';
+import { Material } from '../../../Babylon.js/src/Materials/material';
 
 
 

@@ -1,14 +1,14 @@
 
 // set up 'astroid world' inside a sphere
 
-import { Mesh } from "../../../src/Meshes/mesh"
-import { Camera } from "../../../src/Cameras/camera"
-import { Vector3 } from "../../../src/Maths/math"
-import { HemisphericLight } from "../../../src/Lights/hemisphericLight"
-import { Scene } from '../../../src/scene'
-import { MeshBuilder } from '../../../src/Meshes/meshBuilder'
-import { PhysicsImpostor } from '../../../src/Physics/physicsImpostor'
-import { Color3 } from '../../../src/Maths/math'
+import { Mesh } from "../../../Babylon.js/src/Meshes/mesh"
+import { Camera } from "../../../Babylon.js/src/Cameras/camera"
+import { Vector3 } from "../../../Babylon.js/src/Maths/math"
+import { HemisphericLight } from "../../../Babylon.js/src/Lights/hemisphericLight"
+import { Scene } from '../../../Babylon.js/src/scene'
+import { MeshBuilder } from '../../../Babylon.js/src/Meshes/meshBuilder'
+import { PhysicsImpostor } from '../../../Babylon.js/src/Physics/physicsImpostor'
+import { Color3 } from '../../../Babylon.js/src/Maths/math'
 
 //import { GridMaterial } from 'babylonjs-materials';
 import { assert } from './assert';

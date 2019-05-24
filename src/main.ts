@@ -8,20 +8,20 @@ import 'core-js'; // <- at the top of your entry point
 // below are different tests ('games').  Don't want to recreate the
 // whole environment just to test or develop a feature.
 
-const whichGame: number = 4;
+const whichGame: number = 1;
 
 ///* 0 */ import { Asteroids } from "./asteroids/asteroids";
 /* 1 */ import { AsteroidCollide } from "./asteroids/asteroidcollide";
-///* 2 */ import { Icosahedron } from "./asteroids/icosahedron";
-///* 3 */ import { SimpleTest } from "./asteroids/simpletest";
+///* 2 */ import { MeshFromScratch } from "./asteroids/meshfromscratch";
+/* 3 */ import { SimpleTest } from "./asteroids/simpletest";
 /* 4 */ import { Fresnel } from "./asteroids/fresnel";
 
 
 ////////////////////////////////////////////////////
 //
 
-import { Engine } from '../../src/Engines/engine'
-import { Scene } from '../../src/scene'
+import { Engine } from '../../Babylon.js/src/Engines/engine'
+import { Scene } from '../../Babylon.js/src/scene'
 
 import { assert } from './asteroids/assert'
 
@@ -41,6 +41,8 @@ export class BJS {
 
         let gameboard: any;
 
+        // todo:  write a carousel to rotate through these tests
+
         switch (whichGame) {
             case 0:
                 //                  gameboard = new Asteroids();
@@ -49,10 +51,11 @@ export class BJS {
                 gameboard = new AsteroidCollide();
                 break;
             case 2:
-                //                    gameboard = new Icosahedron(1, 2, 3);
+ // doesn't compile yet
+ //                gameboard = new MeshFromScratch();
                 break;
             case 3:
-                //                    gameboard = new SimpleTest();
+                gameboard = new SimpleTest();
                 break;
             case 4:
                 gameboard = new Fresnel();
