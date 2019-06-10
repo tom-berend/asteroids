@@ -20,13 +20,13 @@ export default {
 	input: 'src/main.ts',
 
 	output: {
-		file: 'dist/BJS.js',		// not BABYLON (for now) to avoid confusion
+		file: 'dist/asteroids.js',	
 		format: 'iife',				// umd or iife
 		sourcemap: true,
 		name: 'asteroids.js'
 	},
 	plugins: [
-		typescript2(),
+		typescript2({"clean":true}),
 		commonjs(),
 		babel({
 			babelrc: false,
@@ -50,7 +50,7 @@ export default {
             delimiters: ["", ""],
             "_typeof2(Symbol.iterator)": "typeof Symbol.iterator",
             "_typeof2(obj);": "typeof obj;"
-        }),
+		}),
 		serve({
 			contentBase:'',
 			open: true,
